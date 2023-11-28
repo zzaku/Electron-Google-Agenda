@@ -1,11 +1,15 @@
 import { app, BrowserWindow } from "electron";
+
 import * as path from "path";
+require('dotenv').config();
 
 function createWindow() {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
     height: 600,
     webPreferences: {
+      nodeIntegration: true,
+      contextIsolation: false,
       preload: path.join(__dirname, "preload.js"),
     },
     width: 800,
