@@ -3,7 +3,6 @@ import { db } from "../loaders/loadCoreModule";
 
 import * as path from "path";
 import { DateEvent } from "../models/event.interfaces";
-require('dotenv').config();
 
 //Zone de handle
 const table = 'events';
