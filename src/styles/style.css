@@ -1,0 +1,27 @@
+
+body{
+  margin: 0;
+}
+
+.month-year{
+  height: 10rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color:beige;
+  margin-bottom: 2rem;
+}
+
+.month-year span{
+ margin: 0 0.5rem;
+ font-size: 2rem;
+}
+
+.weekdays{
+  display: flex;
+  justify-content: space-between;
+}
+
+.weekdays div{
+ padding: 1rem;
+}

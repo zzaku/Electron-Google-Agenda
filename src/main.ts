@@ -1,4 +1,5 @@
-import { app, BrowserWindow } from "electron";
+import { app, BrowserWindow, ipcMain } from "electron";
+
 
 import * as path from "path";
 require('dotenv').config();
@@ -13,6 +14,11 @@ function createWindow() {
       preload: path.join(__dirname, "preload.js"),
     },
     width: 800,
+  });
+
+  ipcMain.on('getCurrentDate', (event) => {
+    const currentDate = new Date();
+    event.sender.send('loadCalendar', { year: currentDate.getFullYear(), month: currentDate.getMonth() + 1 });
   });
 
   // and load the index.html of the app.
