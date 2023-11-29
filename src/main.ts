@@ -16,16 +16,23 @@ function createWindow() {
     width: 800,
   });
 
-  ipcMain.on('getCurrentDate', (event) => {
-    const currentDate = new Date();
-    event.sender.send('loadCalendar', { year: currentDate.getFullYear(), month: currentDate.getMonth() + 1 });
-  });
 
   // and load the index.html of the app.
   mainWindow.loadFile(path.join(__dirname, "../index.html"));
 
   // Open the DevTools.
   mainWindow.webContents.openDevTools();
+
+  mainWindow.webContents.on('dom-ready', () => {
+    // When DOM is ready, send the event to load the calendar
+    mainWindow.webContents.send('getCurrentDate');
+  });
+
+  ipcMain.on('getCurrentDate', (event) => {
+    const currentDate = new Date();
+    event.sender.send('loadCalendar', { year: currentDate.getFullYear(), month: currentDate.getMonth() + 1 });
+  });
+
 }
 
 // This method will be called when Electron has finished
