@@ -10,7 +10,7 @@ const test = {
   date_fin: new Date(Date.now()),
   titre: "test"
 };
-
+console.log('test');
 (async function testAddEvent  (){
   await window.electron.addEvent(test);
 })();
