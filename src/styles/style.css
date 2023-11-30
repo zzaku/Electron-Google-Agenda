@@ -81,3 +81,16 @@ body{
   background-color: #202248;
   opacity: 0.5;
 }
+
+.event__tag{
+  width: 95%;
+  margin: auto;
+  background: #6a72ff;
+  text-align: center;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.event__tag:hover{
+  background-color: #858bff;
+}
