@@ -3,6 +3,7 @@ import { db } from "../loaders/loadCoreModule";
 
 import * as path from "path";
 import { DateEvent } from "../models/event.interfaces";
+import { CurrentDateCalendar } from "../models/currentDateCalendar.interface";
 
 //Zone de handle
 const table = 'events';
@@ -48,12 +49,27 @@ function createWindow() {
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
     },
-    width: 800,
+    width: 1000,
   });
 
-  ipcMain.on('getCurrentDate', (event: IpcMainEvent) => {
-    const currentDate = new Date();
-    event.sender.send('loadCalendar', { year: currentDate.getFullYear(), month: currentDate.getMonth() + 1 });
+  ipcMain.handle('getCurrentDate', (event: IpcMainEvent, option: {year?: number, month?: number, type: {module: 'year' | 'month', action?: 'previous' | 'next'} }): CurrentDateCalendar => {
+    if(option.type.module === 'month'){
+      if(option.type.action === "previous"){
+        return { year: option.year, month: option.month - 1 };
+      } else if (option.type.action === "next"){
+        return { year: option.year, month: option.month + 1 };
+      } else {
+        return { year: option.year, month: option.month };
+      }
+    } else if (option.type.module === 'year'){
+      if(option.type.action === "previous"){
+        return { year: option.year - 1, month: option.month};
+      } else if (option.type.action === "next"){
+        return { year: option.year + 1, month: option.month};
+      } else {
+        return { year: option.year, month: option.month };
+      }
+    }
   });
 
   // and load the index.html of the app.
