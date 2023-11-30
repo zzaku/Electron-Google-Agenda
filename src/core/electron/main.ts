@@ -52,12 +52,12 @@ function createWindow() {
     width: 1000,
   });
 
-  ipcMain.handle('getCurrentDate', (event: IpcMainEvent, option: {year?: number, month?: number, type: {module: 'year' | 'month', action?: 'previous' | 'next'} }): CurrentDateCalendar => {
+  ipcMain.handle('getDate', (event: IpcMainEvent, option: {year?: number, month?: number, type: {module: 'year' | 'month', action?: 'previous' | 'next'} }): CurrentDateCalendar => {
     if(option.type.module === 'month'){
       if(option.type.action === "previous"){
-        return { year: option.year, month: option.month - 1 };
+        return { year: option.month === 1 ? option.year - 1 : option.year, month: option.month === 1 ? 12 : option.month - 1 };
       } else if (option.type.action === "next"){
-        return { year: option.year, month: option.month + 1 };
+        return { year: option.month === 12 ? option.year + 1 : option.year, month: option.month === 12 ? 1 : option.month + 1};
       } else {
         return { year: option.year, month: option.month };
       }
