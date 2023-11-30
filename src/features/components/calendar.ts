@@ -12,13 +12,10 @@ let currentDate: {year: number, month: number}
 function createCalendar(firstLoading: boolean, year?: number, month?: number): void {
   if (firstLoading) {
     const currentDate = new Date();
+
     // Obtenir la date actuelle
     year = currentDate.getFullYear(); // Récupérer l'année actuelle
     month = currentDate.getMonth() + 1; // Récupérer le mois actuel (le mois est indexé de 0 à 11)
-    
-    // Mise à jour des balises HTML avec le mois et l'année actuels
-    monthElement.textContent = months[month - 1];
-    yearElement.textContent = year.toString();
   }
 
   currentDate = {year, month};
