@@ -7,16 +7,26 @@ const months = [
   "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"
 ];
 
-// Récupérer le mois et l'anée
-const currentDate = new Date();
-const currentMonth = currentDate.getMonth();
-const currentYear = currentDate.getFullYear();
+let currentDate: {year: number, month: number}
 
-// Mise a jour des balises html
-monthElement.textContent = months[currentMonth];
-yearElement.textContent = currentYear.toString();
+function createCalendar(firstLoading: boolean, year?: number, month?: number): void {
+  if (firstLoading) {
+    const currentDate = new Date();
+    // Obtenir la date actuelle
+    year = currentDate.getFullYear(); // Récupérer l'année actuelle
+    month = currentDate.getMonth() + 1; // Récupérer le mois actuel (le mois est indexé de 0 à 11)
+    
+    // Mise à jour des balises HTML avec le mois et l'année actuels
+    monthElement.textContent = months[month - 1];
+    yearElement.textContent = year.toString();
+  }
 
-export function createCalendar(year: number, month: number) {
+  currentDate = {year, month};
+  
+  // Mise a jour des balises html
+  monthElement.textContent = months[month - 1];
+  yearElement.textContent = year.toString();
+  
   const daysOfWeek = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'];
 
    // Boucle sur les colonnes pour créer le calendrier dans chaque colonne
@@ -30,7 +40,6 @@ export function createCalendar(year: number, month: number) {
     // Récupérer le nombre de jours dans le mois et le jour de la semaine du premier et dernier jour du mois
     const daysInMonth = new Date(year, month, 0).getDate();
     const firstDayOfMonth = new Date(year, month - 1, 1).getDay();
-    const lastDayOfMonth = new Date(year, month, 0).getDay();
 
     let currentRow: HTMLTableRowElement | null = null;
 

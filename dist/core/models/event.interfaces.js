@@ -1,3 +1,2 @@
 "use strict";
-exports.__esModule = true;
-//# sourceMappingURL=event.interfaces.js.map
+Object.defineProperty(exports, "__esModule", { value: true });
