@@ -2,6 +2,8 @@ import knex from 'knex';
 import * as dotenv from 'dotenv';
 dotenv.config();
 
+console.log(process.env.BDD, process.env.USER_DB,process.env.HOST_DB,process.env.PASSWORD_DB);
+
 const myDb: knex.Knex = knex({
     client: 'mysql',
     connection: {
@@ -12,5 +14,6 @@ const myDb: knex.Knex = knex({
       database: process.env.BDD
     }
   });
-  
+
+
   export default myDb;
