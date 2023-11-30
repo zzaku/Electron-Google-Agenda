@@ -21,12 +21,50 @@ nextMonth.addEventListener('click', () => window.electron.loadCalendar({year: cu
 previousYear.addEventListener('click', () => window.electron.loadCalendar({year: currentDate.year, month: currentDate.month, type: {module: 'year', action: 'previous'}}).then((res) => {createCalendar(false, res.year, res.month)}))
 nextYear.addEventListener('click', () => window.electron.loadCalendar({year: currentDate.year, month: currentDate.month, type: {module: 'year', action: 'next'}}).then((res) => {createCalendar(false, res.year, res.month)}))
 
-const test = {
-  date_deb: new Date(Date.now()),
-  date_fin: new Date(Date.now()),
-  titre: "test"
+
+// récupérer tous les évenements de la db
+const getAllEventsFromDB = async () => {
+  return await window.electron.getAllEvents();
 };
 
-(async function testAddEvent  (){
-  await window.electron.addEvent(test);
-})();
+
+const displayEventsOnCalendar = async () => {
+  const events = await getAllEventsFromDB();
+
+  console.log(events);
+
+  if (events) {
+    // Parcour les événements pour afficher les événement sur le bon jour
+    events.forEach((event) => {
+      const eventDate = new Date(event.date_deb);
+      const day = eventDate.getDate();
+      const month = eventDate.getMonth() + 1;
+
+      // Récupère la cellule correspondant à la date de l'événement
+      const cell = document.querySelector(`.dates-table td[data-day="${day}"][data-month="${month}"]`);
+
+      if (cell) {
+        // Créer un élément pour afficher le titre de l'événement
+        const eventTitle = document.createElement('div');
+        eventTitle.textContent = event.titre;
+
+        cell.innerHTML = '';
+
+        cell.appendChild(eventTitle);
+      }
+    });
+  }
+};
+
+displayEventsOnCalendar();
+
+
+// const test = {
+//   date_deb: new Date(Date.now()),
+//   date_fin: new Date(Date.now()),
+//   titre: "test"
+// };
+
+// (async function testAddEvent  (){
+//   await window.electron.addEvent(test);
+// })();

@@ -5,11 +5,12 @@ import * as path from "path";
 import { DateEvent } from "../models/event.interfaces";
 import { CurrentDateCalendar } from "../models/currentDateCalendar.interface";
 
+
 //Zone de handle
-const table = 'events';
+const table = 'events';``
 
 ipcMain.handle('add-event', async (event, params: DateEvent) => await db.functions.addEvent(db.knex, table, params));
-ipcMain.handle('get-event', async () => await db.functions.addEvent(db.knex, table));
+ipcMain.handle('get-event', async () => await db.functions.getAllEvents(db.knex, table));
 ipcMain.handle('get-event-by-id', async (event, params: number) => await db.functions.addEvent(db.knex, table, params));
 ipcMain.handle('update-event', async (event, params: Partial<DateEvent>) => await db.functions.addEvent(db.knex, table, params));
 ipcMain.handle('delete-event', async (event, params: number) => await db.functions.addEvent(db.knex, table, params));

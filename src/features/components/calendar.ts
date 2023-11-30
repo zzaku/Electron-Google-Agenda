@@ -19,11 +19,11 @@ function createCalendar(firstLoading: boolean, year?: number, month?: number): v
   }
 
   currentDate = {year, month};
-  
+
   // Mise a jour des balises html
   monthElement.textContent = months[month - 1];
   yearElement.textContent = year.toString();
-  
+
   const daysOfWeek = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'];
 
    // Boucle sur les colonnes pour créer le calendrier dans chaque colonne

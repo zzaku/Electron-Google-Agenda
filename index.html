@@ -3,32 +3,39 @@
   <head>
     <meta charset="UTF-8" />
     <link rel="stylesheet" href="./src/styles/style.css" />
-    <title>Hello World!</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <title>Calendar</title>
   </head>
   <body>
-    <div id="calendar">
-      <div class="month-year">
-        <button id="prevMonth">
-          Mois Précédent
-        </button>
-        <span id="month"></span>
-        <button id="nextMonth">
-          Mois suivant
-        </button>
-        <button id="prevYear">
-          Année Précédent
-        </button>
-        <span id="year"></span>
-        <button id="nextYear">
-          Année suivant
-        </button>
-      </div>
-      <div class="days">
-        <div class="column">
-          <table class="dates-table"></table>
+    <div class="container">
+      <div id="calendar">
+        <div class="month-year">
+          <div class="month-container">
+          <div id="prevMonth" class="btn">
+            <i class="material-icons" id="prevMonth">arrow_back</i>
+          </div>
+          <span id="month"></span>
+          <div id="nextMonth" class="btn">
+            <i class="material-icons">arrow_forward</i>
+          </div>
         </div>
-    </div>
+        <div class="year-container">
+          <div id="prevYear" class="btn">
+            <i class="material-icons">arrow_back</i>
+          </div>
+          <span id="year"></span>
+          <div id="nextYear" class="btn">
+            <i class="material-icons">arrow_forward</i>
+          </div>
+        </div>
+      </div>
+        <div class="days">
+          <div class="column">
+            <table class="dates-table"></table>
+          </div>
 
+      </div>
+    </div>
     <script src="./dist/features/components/calendar.js"></script>
     <script src="./dist/features/renderer.js"></script>
   </body>
