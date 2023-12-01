@@ -10,6 +10,7 @@ const nextMonth = document.getElementById('nextMonth')
 const previousYear = document.getElementById('prevYear');
 const nextYear = document.getElementById('nextYear');
 
+
 //Initialisation du calendrier
 
 (async function initializeCalendar  (){
@@ -20,10 +21,10 @@ const nextYear = document.getElementById('nextYear');
 //Action mois
 previousMonth.addEventListener('click', () => {
   window.electron.loadCalendar({
-    year: currentDate.year, 
-    month: currentDate.month, 
+    year: currentDate.year,
+    month: currentDate.month,
     type: {
-      module: 'month', 
+      module: 'month',
       action: 'previous'
     }})
   .then(async (res) => {
@@ -34,10 +35,10 @@ previousMonth.addEventListener('click', () => {
 
 nextMonth.addEventListener('click', () => {
   window.electron.loadCalendar({
-    year: currentDate.year, 
-    month: currentDate.month,  
+    year: currentDate.year,
+    month: currentDate.month,
     type: {
-      module: 'month', 
+      module: 'month',
       action: 'next'
     }})
   .then(async (res) => {
@@ -49,10 +50,10 @@ nextMonth.addEventListener('click', () => {
 //Action Année
 previousYear.addEventListener('click', () => {
   window.electron.loadCalendar({
-    year: currentDate.year, 
-    month: currentDate.month, 
+    year: currentDate.year,
+    month: currentDate.month,
     type: {
-      module: 'year', 
+      module: 'year',
       action: 'previous'
     }})
   .then(async (res) => {
@@ -63,10 +64,10 @@ previousYear.addEventListener('click', () => {
 
 nextYear.addEventListener('click', () => {
   window.electron.loadCalendar({
-    year: currentDate.year, 
-    month: currentDate.month, 
+    year: currentDate.year,
+    month: currentDate.month,
     type: {
-      module: 'year', 
+      module: 'year',
       action: 'next'
     }})
   .then(async (res) => {
@@ -74,6 +75,7 @@ nextYear.addEventListener('click', () => {
     displayEventsOnCalendar();
   })
 })
+
 
  /*const test = {
   date_deb: new Date(Date.now()),
