@@ -12,7 +12,8 @@ contextBridge.exposeInMainWorld(
     getEventById: (eventId: number) => ipcRenderer.invoke('get-event-by-id', eventId),
     updateEvent: (event: Partial<DateEvent>) => ipcRenderer.invoke('update-event', event),
     deleteEvent: (eventId: number) => ipcRenderer.invoke('delete-event', eventId),
-    contextMenu: () => ipcRenderer.invoke('show-context-menu')
+    contextMenu: () => ipcRenderer.invoke('show-context-menu'),
+    showEvent: () => ipcRenderer.invoke('show-event'),
   }
 )
 
