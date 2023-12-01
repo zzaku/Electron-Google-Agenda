@@ -9,6 +9,11 @@ const months = [
 
 let currentDate: {year: number, month: number}
 
+// récupérer tous les évenements de la db
+const getAllEventsFromDB = async () => {
+  return await window.electron.getAllEvents();
+};
+
 function createCalendar(firstLoading: boolean, year?: number, month?: number): Promise<null> {
   return new Promise((resolve, reject) => {
     if (firstLoading) {
@@ -87,3 +92,29 @@ function createCalendar(firstLoading: boolean, year?: number, month?: number): P
     resolve(null);
   });
 }
+
+const displayEventsOnCalendar = async () => {
+  //récuprération des évènements
+  const events = await getAllEventsFromDB();
+
+  if (events) {
+    // Parcour les événements pour afficher les événement sur le bon jour
+    events.forEach((event) => {
+      const eventDate = new Date(event.date_deb);
+      const day = eventDate.getDate();
+      const month = eventDate.getMonth() + 1;
+      const year = eventDate.getFullYear();
+      // Récupère la cellule correspondant à la date de l'événement
+      const cell = document.querySelector(`.dates-table td[data-day="${day}"][data-month="${month}"][data-year="${year}"]`);
+
+      if (cell) {
+        // Créer un élément pour afficher le titre de l'événement
+        const eventTitle = document.createElement('div');
+        eventTitle.className = 'event__tag'
+        eventTitle.textContent = event.titre.length >= 17 ? event.titre.substring(0, 14) + '...' : event.titre;
+
+        cell.appendChild(eventTitle);
+      }
+    });
+  }
+};

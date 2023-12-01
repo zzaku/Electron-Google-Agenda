@@ -43,6 +43,26 @@ ipcMain.handle('show-context-menu', async (event: IpcMainEvent) => {
   }
 });
 
+ipcMain.handle('getDate', (event: IpcMainEvent, option: {year?: number, month?: number, type: {module: 'year' | 'month', action?: 'previous' | 'next'} }): CurrentDateCalendar => {
+  if(option.type.module === 'month'){
+    if(option.type.action === "previous"){
+      return { year: option.month === 1 ? option.year - 1 : option.year, month: option.month === 1 ? 12 : option.month - 1 };
+    } else if (option.type.action === "next"){
+      return { year: option.month === 12 ? option.year + 1 : option.year, month: option.month === 12 ? 1 : option.month + 1};
+    } else {
+      return { year: option.year, month: option.month };
+    }
+  } else if (option.type.module === 'year'){
+    if(option.type.action === "previous"){
+      return { year: option.year - 1, month: option.month};
+    } else if (option.type.action === "next"){
+      return { year: option.year + 1, month: option.month};
+    } else {
+      return { year: option.year, month: option.month };
+    }
+  }
+});
+
 function createWindow() {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
@@ -53,26 +73,7 @@ function createWindow() {
     width: 1000,
   });
 
-  ipcMain.handle('getDate', (event: IpcMainEvent, option: {year?: number, month?: number, type: {module: 'year' | 'month', action?: 'previous' | 'next'} }): CurrentDateCalendar => {
-    if(option.type.module === 'month'){
-      if(option.type.action === "previous"){
-        return { year: option.month === 1 ? option.year - 1 : option.year, month: option.month === 1 ? 12 : option.month - 1 };
-      } else if (option.type.action === "next"){
-        return { year: option.month === 12 ? option.year + 1 : option.year, month: option.month === 12 ? 1 : option.month + 1};
-      } else {
-        return { year: option.year, month: option.month };
-      }
-    } else if (option.type.module === 'year'){
-      if(option.type.action === "previous"){
-        return { year: option.year - 1, month: option.month};
-      } else if (option.type.action === "next"){
-        return { year: option.year + 1, month: option.month};
-      } else {
-        return { year: option.year, month: option.month };
-      }
-    }
-  });
-
+  mainWindow.setMenu(menu)
   // and load the index.html of the app.
   mainWindow.loadFile(path.join(__dirname, "../../../index.html"));
 
