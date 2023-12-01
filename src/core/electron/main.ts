@@ -14,6 +14,7 @@ ipcMain.handle('get-event', async () => await db.functions.getAllEvents(db.knex,
 ipcMain.handle('get-event-by-id', async (event, params: number) => await db.functions.addEvent(db.knex, table, params));
 ipcMain.handle('update-event', async (event, params: Partial<DateEvent>) => await db.functions.addEvent(db.knex, table, params));
 ipcMain.handle('delete-event', async (event, params: number) => await db.functions.addEvent(db.knex, table, params));
+ipcMain.handle('show-event', async () => createWindowEvent());
 
 //Zone déclaration menus
 const templateMenu: MenuItemConstructorOptions[] = [
@@ -24,7 +25,6 @@ const templateMenu: MenuItemConstructorOptions[] = [
         label: "test",
         click: () => {
           //ouvrir une deuxième fenètre
-          createWindow2()
         }
       }, {
         type: "separator"
@@ -81,10 +81,10 @@ function createWindow() {
   mainWindow.webContents.openDevTools();
 }
 
-function createWindow2() {
+function createWindowEvent() {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
-    height: 600,
+    height: 500,
     webPreferences: {
       preload: path.join(__dirname, "./preload.js"),
     },
