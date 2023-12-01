@@ -1,21 +1,48 @@
-import { app, BrowserWindow, ipcMain, Menu, MenuItemConstructorOptions, IpcMainEvent} from "electron";
+import {
+  app,
+  BrowserWindow,
+  ipcMain,
+  Menu,
+  MenuItemConstructorOptions,
+  IpcMainEvent,
+} from "electron";
 import { db } from "../loaders/loadCoreModule";
 
 import * as path from "path";
 import { DateEvent } from "../models/event.interfaces";
 import { CurrentDateCalendar } from "../models/currentDateCalendar.interface";
 
-
 //Zone de handle
-const table = 'events';``
+const table = "events";
+``;
 
-ipcMain.handle('add-event', async (event, params: DateEvent) => await db.functions.addEvent(db.knex, table, params));
-ipcMain.handle('get-event', async () => await db.functions.getAllEvents(db.knex, table));
-ipcMain.handle('get-event-by-id', async (event, params: number) => await db.functions.addEvent(db.knex, table, params));
-ipcMain.handle('update-event', async (event, params: Partial<DateEvent>) => await db.functions.addEvent(db.knex, table, params));
-ipcMain.handle('delete-event', async (event, params: number) => await db.functions.addEvent(db.knex, table, params));
-ipcMain.handle('show-event', async () => createWindowEvent());
-
+ipcMain.handle(
+  "add-event",
+  async (event, params: DateEvent) =>
+    await db.functions.addEvent(db.knex, table, params)
+);
+ipcMain.handle(
+  "get-event",
+  async () => await db.functions.getAllEvents(db.knex, table)
+);
+ipcMain.handle(
+  "get-event-by-id",
+  async (event, params: number) =>
+    await db.functions.addEvent(db.knex, table, params)
+);
+ipcMain.handle(
+  "update-event",
+  async (event, params: Partial<DateEvent>) =>
+    await db.functions.addEvent(db.knex, table, params)
+);
+ipcMain.handle(
+  "delete-event",
+  async (event, params: number) =>
+    await db.functions.addEvent(db.knex, table, params)
+);
+ipcMain.handle("show-event", async (event, eventId: number) => {
+  await createWindowEvent(eventId);
+});
 //Zone déclaration menus
 const templateMenu: MenuItemConstructorOptions[] = [
   {
@@ -25,17 +52,21 @@ const templateMenu: MenuItemConstructorOptions[] = [
         label: "test",
         click: () => {
           //ouvrir une deuxième fenètre
-        }
-      }, {
-        type: "separator"
-      }, {
-        label: "Fermer", role: "quit"
-      }]
-  }
-]
-const menu = Menu.buildFromTemplate(templateMenu)
+        },
+      },
+      {
+        type: "separator",
+      },
+      {
+        label: "Fermer",
+        role: "quit",
+      },
+    ],
+  },
+];
+const menu = Menu.buildFromTemplate(templateMenu);
 
-ipcMain.handle('show-context-menu', async (event: IpcMainEvent) => {
+ipcMain.handle("show-context-menu", async (event: IpcMainEvent) => {
   const win: BrowserWindow | null = BrowserWindow.fromWebContents(event.sender);
 
   if (win) {
@@ -43,25 +74,41 @@ ipcMain.handle('show-context-menu', async (event: IpcMainEvent) => {
   }
 });
 
-ipcMain.handle('getDate', (event: IpcMainEvent, option: {year?: number, month?: number, type: {module: 'year' | 'month', action?: 'previous' | 'next'} }): CurrentDateCalendar => {
-  if(option.type.module === 'month'){
-    if(option.type.action === "previous"){
-      return { year: option.month === 1 ? option.year - 1 : option.year, month: option.month === 1 ? 12 : option.month - 1 };
-    } else if (option.type.action === "next"){
-      return { year: option.month === 12 ? option.year + 1 : option.year, month: option.month === 12 ? 1 : option.month + 1};
-    } else {
-      return { year: option.year, month: option.month };
+ipcMain.handle(
+  "getDate",
+  (
+    event: IpcMainEvent,
+    option: {
+      year?: number;
+      month?: number;
+      type: { module: "year" | "month"; action?: "previous" | "next" };
     }
-  } else if (option.type.module === 'year'){
-    if(option.type.action === "previous"){
-      return { year: option.year - 1, month: option.month};
-    } else if (option.type.action === "next"){
-      return { year: option.year + 1, month: option.month};
-    } else {
-      return { year: option.year, month: option.month };
+  ): CurrentDateCalendar => {
+    if (option.type.module === "month") {
+      if (option.type.action === "previous") {
+        return {
+          year: option.month === 1 ? option.year - 1 : option.year,
+          month: option.month === 1 ? 12 : option.month - 1,
+        };
+      } else if (option.type.action === "next") {
+        return {
+          year: option.month === 12 ? option.year + 1 : option.year,
+          month: option.month === 12 ? 1 : option.month + 1,
+        };
+      } else {
+        return { year: option.year, month: option.month };
+      }
+    } else if (option.type.module === "year") {
+      if (option.type.action === "previous") {
+        return { year: option.year - 1, month: option.month };
+      } else if (option.type.action === "next") {
+        return { year: option.year + 1, month: option.month };
+      } else {
+        return { year: option.year, month: option.month };
+      }
     }
   }
-});
+);
 
 function createWindow() {
   // Create the browser window.
@@ -73,7 +120,7 @@ function createWindow() {
     width: 1000,
   });
 
-  mainWindow.setMenu(menu)
+  mainWindow.setMenu(menu);
   // and load the index.html of the app.
   mainWindow.loadFile(path.join(__dirname, "../../../index.html"));
 
@@ -81,8 +128,9 @@ function createWindow() {
   mainWindow.webContents.openDevTools();
 }
 
-function createWindowEvent() {
-  // Create the browser window.
+async function createWindowEvent(eventId: number) {
+  const eventDetails = await db.functions.getEventById(db.knex, table, eventId);
+
   const mainWindow = new BrowserWindow({
     height: 500,
     webPreferences: {
@@ -91,10 +139,12 @@ function createWindowEvent() {
     width: 800,
   });
 
-  // and load the index.html of the app.
   mainWindow.loadFile(path.join(__dirname, "../../../showEvent.html"));
 
-  // Open the DevTools.
+  mainWindow.webContents.on("did-finish-load", () => {
+    return eventId;
+  });
+
   mainWindow.webContents.openDevTools();
 }
 

@@ -69,11 +69,11 @@ function createCalendar(firstLoading: boolean, year?: number, month?: number): P
             dayCell.textContent = '';
           } else {
             dayCell.textContent = dayCounter.toString();
-            
+
             dayCell.setAttribute('data-day', dayCounter.toString());
             dayCell.setAttribute('data-month', month.toString());
             dayCell.setAttribute('data-year', year.toString());
-            
+
             dayCounter++;
             inMonth = true;
           }
@@ -88,7 +88,7 @@ function createCalendar(firstLoading: boolean, year?: number, month?: number): P
         }
       }
     });
-    
+
     resolve(null);
   });
 }
@@ -115,7 +115,7 @@ const displayEventsOnCalendar = async () => {
 
         cell.appendChild(eventTitle);
 
-        eventTitle.addEventListener('click', () => window.electron.showEvent())
+        eventTitle.addEventListener('click', () => window.electron.showEvent(event.id))
       }
     });
   }

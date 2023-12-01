@@ -1,6 +1,7 @@
 import { CurrentDateCalendar } from "../core/models/currentDateCalendar.interface"
 import { DateEvent } from "../core/models/event.interfaces";
 
+
 export { }
 declare global {
     interface Window {
@@ -12,7 +13,10 @@ declare global {
             updateEvent: (updatedEvent: Partial<DateEvent>) => Promise<boolean>;
             deleteEvent: (eventId: number) => Promise<boolean>;
             contextMenu: () => void;
-            showEvent: () => void;
-        }
+            showEvent: (eventId: number) => void;
+            eventDetail:  () => void;
+            }
+
     }
+
 }
