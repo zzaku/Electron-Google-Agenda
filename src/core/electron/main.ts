@@ -140,9 +140,9 @@ async function createWindowEvent(eventId: number) {
   });
 
   mainWindow.loadFile(path.join(__dirname, "../../../showEvent.html"));
-
+  console.log(eventId)
   mainWindow.webContents.on("did-finish-load", () => {
-    return eventId;
+    mainWindow.webContents.send('display-event', eventDetails);
   });
 
   mainWindow.webContents.openDevTools();

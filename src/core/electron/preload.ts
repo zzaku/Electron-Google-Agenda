@@ -13,15 +13,14 @@ contextBridge.exposeInMainWorld(
     updateEvent: (event: Partial<DateEvent>) => ipcRenderer.invoke('update-event', event),
     deleteEvent: (eventId: number) => ipcRenderer.invoke('delete-event', eventId),
     contextMenu: () => ipcRenderer.invoke('show-context-menu'),
-    showEvent: (eventDetails: DateEvent) => ipcRenderer.invoke('show-event', eventDetails),
-    eventDetail: () => eventDetail(),
+    showEvent: (eventId: number) => ipcRenderer.invoke('show-event', eventId),
+    eventDetail: (callback: (res: DateEvent) => void) => eventDetail(callback),
   }
 )
 
-export function eventDetail() {
+function eventDetail(callback: (res: DateEvent) => void): void {
 
-  ipcRenderer.send("did-finish-load", (event : any) =>{
-    console.log(event);
-   return event;
-  })
- }
+  ipcRenderer.on("display-event", (event, response: DateEvent) => {
+    callback(response);
+  });
+}

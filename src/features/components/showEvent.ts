@@ -1,9 +1,10 @@
 
-window.addEventListener('DOMContentLoaded', () => {
   const titleElement = document.getElementById('title');
   const descriptionElement = document.getElementById('description');
 
-   console.log(window.electron.eventDetail());
-      // titleElement.textContent = eventDetails.title;
-      // descriptionElement.textContent = eventDetails.description;
-});
+  window.electron.eventDetail((event) => {
+    
+    titleElement.textContent = event.titre;
+    descriptionElement.textContent = event.description;
+    
+  });

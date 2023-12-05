@@ -114,7 +114,7 @@ const displayEventsOnCalendar = async () => {
         eventTitle.textContent = event.titre.length >= 17 ? event.titre.substring(0, 14) + '...' : event.titre;
 
         cell.appendChild(eventTitle);
-
+        
         eventTitle.addEventListener('click', () => window.electron.showEvent(event.id))
       }
     });

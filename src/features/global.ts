@@ -14,7 +14,7 @@ declare global {
             deleteEvent: (eventId: number) => Promise<boolean>;
             contextMenu: () => void;
             showEvent: (eventId: number) => void;
-            eventDetail:  () => void;
+            eventDetail: (callback: (res: DateEvent) => void) => void;
             }
 
     }

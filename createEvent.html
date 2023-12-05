@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="./src/styles/style.css" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <title>Calendar</title>
+  </head>
+  <body>
+    <div class="container">
+        <div id="calendar">
+            <h1>Créer un nouvel événement</h1>
+            <form id="eventForm">
+                <label for="dateDeb">Date de début:</label>
+                <input type="datetime-local" id="dateDeb" name="dateDeb" required><br><br>
+
+                <label for="dateFin">Date de fin:</label>
+                <input type="datetime-local" id="dateFin" name="dateFin" required><br><br>
+
+                <label for="titre">Titre:</label>
+                <input type="text" id="titre" name="titre" required><br><br>
+
+                <label for="location">Lieu:</label>
+                <input type="text" id="location" name="location"><br><br>
+
+                <label for="categorie">Catégorie:</label>
+                <input type="text" id="categorie" name="categorie"><br><br>
+
+                <label for="description">Description:</label><br>
+                <textarea id="description" name="description" rows="4" cols="50"></textarea><br><br>
+
+                <label for="statut">Statut:</label>
+                <select id="statut" name="statut">
+                <option value="En cours">En cours</option>
+                <option value="Terminé">Terminé</option>
+                <option value="Annulé">Annulé</option>
+                </select><br><br>
+
+                <label for="transparence">Transparence:</label>
+                <select id="transparence" name="transparence">
+                <option value="Publique">Publique</option>
+                <option value="Privée">Privée</option>
+                <option value="Confidentielle">Confidentielle</option>
+                </select><br><br>
+
+                <button type="submit">Créer l'événement</button>
+            </form>
+        </div>
+    </div>
+    <script src="./dist/features/components/calendar.js"></script>
+    <script src="./dist/features/renderer.js"></script>
+  </body>
+</html>
