@@ -7,7 +7,7 @@ const months = [
   "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"
 ];
 
-let currentDate: {year: number, month: number}
+let currentDate: {year: number, month: number};
 
 // récupérer tous les évenements de la db
 const getAllEventsFromDB = async () => {
@@ -98,6 +98,7 @@ const displayEventsOnCalendar = async () => {
   const events = await getAllEventsFromDB();
 
   if (events) {
+
     // Parcour les événements pour afficher les événement sur le bon jour
     events.forEach((event) => {
       const eventDate = new Date(event.date_deb);
@@ -115,7 +116,7 @@ const displayEventsOnCalendar = async () => {
 
         cell.appendChild(eventTitle);
         
-        eventTitle.addEventListener('click', () => window.electron.showEvent(event.id))
+        eventTitle.addEventListener('click', () => window.electron.showEvent(event.date_deb));
       }
     });
   }

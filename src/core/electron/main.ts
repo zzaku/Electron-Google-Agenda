@@ -40,8 +40,8 @@ ipcMain.handle(
   async (event, params: number) =>
     await db.functions.addEvent(db.knex, table, params)
 );
-ipcMain.handle("show-event", async (event, eventId: number) => {
-  await createWindowEvent(eventId);
+ipcMain.handle("show-event", async (event, dateEvent: Date) => {
+  await createWindowEvent(dateEvent);
 });
 
 //Zone déclaration menus
@@ -50,9 +50,9 @@ const templateMenu: MenuItemConstructorOptions[] = [
     label: "Créer",
     submenu: [
       {
-        label: "test",
+        label: "Créer un évènement",
         click: () => {
-          //ouvrir une deuxième fenètre
+          createEventWindow();
         },
       },
       {
@@ -67,6 +67,8 @@ const templateMenu: MenuItemConstructorOptions[] = [
 ];
 
 const menu = Menu.buildFromTemplate(templateMenu);
+
+Menu.setApplicationMenu(menu);
 
 ipcMain.handle("show-context-menu", async (event: IpcMainEvent) => {
   const win: BrowserWindow | null = BrowserWindow.fromWebContents(event.sender);
@@ -122,7 +124,6 @@ function createWindow() {
     width: 1000,
   });
 
-  mainWindow.setMenu(menu);
   // and load the index.html of the app.
   mainWindow.loadFile(path.join(__dirname, "../../../index.html"));
 
@@ -130,8 +131,25 @@ function createWindow() {
   mainWindow.webContents.openDevTools();
 }
 
-async function createWindowEvent(eventId: number) {
-  const eventDetails = await db.functions.getEventById(db.knex, table, eventId);
+// Create event window.
+function createEventWindow() {
+  const mainWindow = new BrowserWindow({
+    height: 500,
+    webPreferences: {
+      preload: path.join(__dirname, "./preload.js"),
+    },
+    width: 800,
+  });
+
+  // and load the index.html of the app.
+  mainWindow.loadFile(path.join(__dirname, "../../../createEvent.html"));
+
+  // Open the DevTools.
+  mainWindow.webContents.openDevTools();
+}
+
+async function createWindowEvent(dateEvent: Date) {
+  const eventDetails = await db.functions.getEventByDate(db.knex, table, dateEvent);
 
   const mainWindow = new BrowserWindow({
     height: 500,
@@ -142,7 +160,7 @@ async function createWindowEvent(eventId: number) {
   });
 
   mainWindow.loadFile(path.join(__dirname, "../../../showEvent.html"));
-  console.log(eventId)
+  
   mainWindow.webContents.on("did-finish-load", () => {
     mainWindow.webContents.send('display-event', eventDetails);
   });

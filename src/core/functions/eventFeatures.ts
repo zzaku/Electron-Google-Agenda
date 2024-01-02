@@ -44,6 +44,29 @@ export const getEventById = (knex: Knex.Knex, table: string, eventId: number): P
   });
 };
 
+export const getEventByDate = (knex: Knex.Knex, table: string, date: Date): Promise<DateEvent[] | null> => {
+  return new Promise((resolve, reject) => {
+    const startOfDay = new Date(date);
+    startOfDay.setHours(0, 0, 0, 0);
+
+    const endOfDay = new Date(date);
+    endOfDay.setHours(23, 59, 59, 999);
+
+    knex(table)
+      .where('date_deb', '>=', startOfDay.toISOString())
+      .andWhere('date_deb', '<=', endOfDay.toISOString())
+      .orderBy('date_deb', 'asc')
+      .then((events: DateEvent[]) => {
+        resolve(events);
+      })
+      .catch((error: Error) => {
+        console.error(`Error retrieving events by date from database: ${error.message}`);
+        reject(null);
+      });
+  });
+};
+
+
 export const updateEvent = (knex: Knex.Knex, table: string, updatedEvent: Partial<DateEvent>): Promise<boolean> => {
   return new Promise((resolve, reject) => {
     knex(table)

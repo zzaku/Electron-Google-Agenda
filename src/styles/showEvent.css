@@ -1,0 +1,52 @@
+.events__container{
+    height: 100vh;
+    width: 100vw;
+}
+
+.event-title-container{
+    height: 10vh;
+    width: 100vw;
+
+}
+
+h1{
+    text-align: center;
+}
+
+.event-details-container{
+    height: 90vh;
+    width: 100vw;
+    overflow-y: scroll;
+}
+
+.hour-event-container{
+    display: flex;
+    height: 15%;
+    width: 100%;
+}
+
+#hour-container{
+    height: 100%;
+    width: 30%;
+    background-color: #5472E4;
+}
+
+#hour-container h3{
+    text-align: center;
+}
+
+#title-container{
+    height: 100%;
+    width: 70%;
+    background-color: #D6E1FF;
+    color: black;
+}
+
+#title-container h4 {
+    margin: 5px 0 0;
+    text-align: center;
+}
+
+#title-container h5 {
+    margin: 0 0 0 10px;
+}
