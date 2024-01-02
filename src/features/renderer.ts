@@ -12,7 +12,6 @@ const nextYear = document.getElementById('nextYear');
 
 
 //Initialisation du calendrier
-
 (async function initializeCalendar  (){
   await createCalendar(true);
   displayEventsOnCalendar();

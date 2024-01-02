@@ -43,10 +43,11 @@ ipcMain.handle(
 ipcMain.handle("show-event", async (event, eventId: number) => {
   await createWindowEvent(eventId);
 });
+
 //Zone déclaration menus
 const templateMenu: MenuItemConstructorOptions[] = [
   {
-    label: "Fichier",
+    label: "Créer",
     submenu: [
       {
         label: "test",
@@ -64,6 +65,7 @@ const templateMenu: MenuItemConstructorOptions[] = [
     ],
   },
 ];
+
 const menu = Menu.buildFromTemplate(templateMenu);
 
 ipcMain.handle("show-context-menu", async (event: IpcMainEvent) => {
@@ -110,8 +112,8 @@ ipcMain.handle(
   }
 );
 
+// Create the browser window.
 function createWindow() {
-  // Create the browser window.
   const mainWindow = new BrowserWindow({
     height: 600,
     webPreferences: {
