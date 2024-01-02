@@ -13,8 +13,8 @@ declare global {
             updateEvent: (updatedEvent: Partial<DateEvent>) => Promise<boolean>;
             deleteEvent: (eventId: number) => Promise<boolean>;
             contextMenu: () => void;
-            showEvent: (eventId: number) => void;
-            eventDetail: (callback: (res: DateEvent) => void) => void;
+            showEvent: (dateEvent: Date) => void;
+            eventDetail: (callback: (res: DateEvent[]) => void) => void;
             }
 
     }

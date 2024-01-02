@@ -1,6 +1,6 @@
 import myDb from "./loadDatabase";
 import { Database } from "../models/db.interfaces";
-import {addEvent, getAllEvents, getEventById, updateEvent, deleteEvent } from "../functions/eventFeatures"
+import {addEvent, getAllEvents, getEventById, getEventByDate, updateEvent, deleteEvent } from "../functions/eventFeatures"
 
 export const db: Database = {knex: myDb, functions: {
     addEvent,
@@ -8,4 +8,5 @@ export const db: Database = {knex: myDb, functions: {
     getEventById,
     updateEvent,
     deleteEvent,
+    getEventByDate
 }};
