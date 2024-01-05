@@ -1,10 +1,11 @@
-.events__container{
-    height: 100vh;
+#events__container{
+    height: 95vh;
     width: 100vw;
+    position: relative;
 }
 
 .event-title-container{
-    height: 10vh;
+    height: 10%;
     width: 100vw;
 
 }
@@ -13,13 +14,13 @@ h1{
     text-align: center;
 }
 
-.event-details-container{
-    height: 90vh;
+#event-details-container{
+    height: 90%;
     width: 100vw;
     overflow-y: scroll;
 }
 
-.hour-event-container{
+#hour-event-container{
     display: flex;
     height: 15%;
     width: 100%;
@@ -36,6 +37,7 @@ h1{
 }
 
 #title-container{
+    position: relative;
     height: 100%;
     width: 70%;
     background-color: #D6E1FF;
@@ -50,3 +52,233 @@ h1{
 #title-container h5 {
     margin: 0 0 0 10px;
 }
+
+.delete-button {
+    top: 5px;
+    right: 0.3em;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #202248;
+    border: none;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.164);
+    cursor: pointer;
+    transition-duration: 0.3s;
+    overflow: hidden;
+    position: absolute;
+  }
+  
+  .delete-svgIcon {
+    width: 15px;
+    transition-duration: 0.3s;
+  }
+  
+  .delete-button:hover {
+    width: 90px;
+    border-radius: 50px;
+    transition-duration: 0.3s;
+    background-color: rgb(255, 69, 69);
+    align-items: center;
+  }
+  
+  .delete-button:hover .delete-svgIcon {
+    width: 20px;
+    transition-duration: 0.3s;
+    transform: translateY(60%);
+    -webkit-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+
+  .delete-button:hover .delete-svgIcon path {
+    fill: #D6E1FF;
+  }
+
+  
+  .delete-button::before {
+      display: none;
+      content: "Delete";
+      color: white;
+      transition-duration: 0.3s;
+      font-size: 2px;
+    }
+    
+    .delete-button:hover::before {
+        display: block;
+        padding-right: 10px;
+        font-size: 13px;
+        opacity: 1;
+        transform: translateY(0px);
+        transition-duration: 0.3s;
+    }
+    
+    .edit-button {
+        top: 5px;
+        right: 4em;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background-color: #202248;
+        border: none;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.164);
+        cursor: pointer;
+        transition-duration: 0.3s;
+        overflow: hidden;
+        position: absolute;
+        text-decoration: none !important;
+        transition: right 0.3s ease, width 0.3s ease, border-radius 0.3s ease, background-color 0.3s ease, align-items 0.3s ease,;
+    }
+    
+    .edit-svgIcon {
+        width: 17px;
+        transition-duration: 0.3s;
+  }
+  
+  .edit-button:hover {
+    width: 120px;
+    border-radius: 50px;
+    transition-duration: 0.3s;
+    background-color: rgb(186, 122, 98);
+    align-items: center;
+  }
+  
+  .edit-button:hover .edit-svgIcon {
+    width: 20px;
+    transition-duration: 0.3s;
+    transform: translateY(60%);
+    -webkit-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+
+  .edit-button:hover .edit-svgIcon path {
+    fill: #D6E1FF;
+  }
+  
+  .edit-button::before {
+    display: none;
+    content: "Edit";
+    color: white;
+    transition-duration: 0.3s;
+    font-size: 2px;
+  }
+  
+  .edit-button:hover::before {
+    display: block;
+    padding-right: 10px;
+    font-size: 13px;
+    opacity: 1;
+    transform: translateY(0px);
+    transition-duration: 0.3s;
+  }  
+
+  .card {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    margin: auto;
+    width: 300px;
+    height: fit-content;
+    background: rgb(255, 255, 255);
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    padding: 30px;
+    box-shadow: 20px 20px 30px rgba(0, 0, 0, 0.068);
+  }
+  .card-content {
+    width: 100%;
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  .card-heading {
+    font-size: 20px;
+    font-weight: 700;
+    color: rgb(27, 27, 27);
+  }
+  .card-description {
+    font-weight: 100;
+    color: rgb(102, 102, 102);
+  }
+  .card-button-wrapper {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+  }
+  .card-button {
+    width: 50%;
+    height: 35px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+  }
+  .primary {
+    background-color: rgb(255, 114, 109);
+    color: white;
+  }
+  .primary:hover {
+    background-color: rgb(255, 73, 66);
+  }
+  .secondary {
+    background-color: #ddd;
+  }
+  .secondary:hover {
+    background-color: rgb(197, 197, 197);
+  }
+  .exit-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    background-color: transparent;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    cursor: pointer;
+  }
+  .exit-button:hover svg {
+    fill: black;
+  }
+  .exit-button svg {
+    fill: rgb(175, 175, 175);
+  }
+  
+  .fade-out {
+    animation-name: fadeOutAnimation;
+    animation-duration: 0.5s;
+    animation-fill-mode: forwards;
+  }
+  
+  @keyframes fadeOutAnimation {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
+      height: 0;
+      padding: 0;
+      margin: 0;
+    }
+  }

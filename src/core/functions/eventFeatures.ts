@@ -1,12 +1,12 @@
 import Knex from 'knex';
 import { DateEvent } from '../models/event.interfaces';
 
-export const addEvent = (knex: Knex.Knex, table: string, body: DateEvent): Promise<boolean> => {
+export const addEvent = (knex: Knex.Knex, table: string, body: DateEvent): Promise<boolean | number[]> => {
   return new Promise((resolve, reject) => {
     knex(table)
       .insert(body)
-      .then(() => {
-        resolve(true);
+      .then((event) => {
+        resolve(event);
       })
       .catch((error: Error) => {
         console.error(`Error inserting event into database: ${error.message}`);
@@ -67,13 +67,13 @@ export const getEventByDate = (knex: Knex.Knex, table: string, date: Date): Prom
 };
 
 
-export const updateEvent = (knex: Knex.Knex, table: string, updatedEvent: Partial<DateEvent>): Promise<boolean> => {
+export const updateEvent = (knex: Knex.Knex, table: string, updatedEvent: Partial<DateEvent>): Promise<boolean | number> => {
   return new Promise((resolve, reject) => {
     knex(table)
       .where('id', updatedEvent.id)
       .update(updatedEvent)
-      .then(() => {
-        resolve(true);
+      .then((event) => {
+        resolve(event);
       })
       .catch((error: Error) => {
         console.error(`Error updating event in database: ${error.message}`);

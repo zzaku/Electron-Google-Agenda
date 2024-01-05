@@ -25,7 +25,7 @@ function createCalendar(firstLoading: boolean, year?: number, month?: number): P
     }
 
     currentDate = {year, month};
-
+    
     // Mise a jour des balises html
     monthElement.textContent = months[month - 1];
     yearElement.textContent = year.toString();
@@ -63,16 +63,25 @@ function createCalendar(firstLoading: boolean, year?: number, month?: number): P
         for (let j = 0; j < 7; j++) {
           const dayCell = document.createElement('td');
 
+          dayCell.style.cursor = "pointer";
+
           if (i === 0 && j < firstDayOfMonth) {
             dayCell.textContent = '';
           } else if (dayCounter > daysInMonth) {
             dayCell.textContent = '';
           } else {
-            dayCell.textContent = dayCounter.toString();
-
             dayCell.setAttribute('data-day', dayCounter.toString());
             dayCell.setAttribute('data-month', month.toString());
             dayCell.setAttribute('data-year', year.toString());
+
+            const dayNumber = document.createElement('h4');
+
+            dayNumber.textContent = dayCounter.toString();
+            dayNumber.classList.add("day__number");
+
+            dayCell.appendChild(dayNumber);
+
+            dayCell.addEventListener("click", ()=> selectDateRange(dayCell))
 
             dayCounter++;
             inMonth = true;
@@ -96,28 +105,47 @@ function createCalendar(firstLoading: boolean, year?: number, month?: number): P
 const displayEventsOnCalendar = async () => {
   //récuprération des évènements
   const events = await getAllEventsFromDB();
-
+  
+  const processedDates: { [key: string]: boolean } = {};
+  
   if (events) {
-
+    
     // Parcour les événements pour afficher les événement sur le bon jour
     events.forEach((event) => {
       const eventDate = new Date(event.date_deb);
+
       const day = eventDate.getDate();
       const month = eventDate.getMonth() + 1;
       const year = eventDate.getFullYear();
-      // Récupère la cellule correspondant à la date de l'événement
-      const cell = document.querySelector(`.dates-table td[data-day="${day}"][data-month="${month}"][data-year="${year}"]`);
 
-      if (cell) {
-        // Créer un élément pour afficher le titre de l'événement
-        const eventTitle = document.createElement('div');
-        eventTitle.className = 'event__tag'
-        eventTitle.textContent = event.titre.length >= 17 ? event.titre.substring(0, 14) + '...' : event.titre;
+      const dateString = `${day}-${month}-${year}`;
 
-        cell.appendChild(eventTitle);
+      if (!processedDates[dateString]) {
+        processedDates[dateString] = true; // Marquer la date comme traitée
         
-        eventTitle.addEventListener('click', () => window.electron.showEvent(event.date_deb));
+        // Récupérer la cellule correspondant à la date de l'événement
+        const cell = document.querySelector(`.dates-table td[data-day="${day}"][data-month="${month}"][data-year="${year}"]`);
+
+        if (cell) {
+          const eventTitle = document.createElement('div');
+          eventTitle.className = 'event__tag';
+  
+          cell.appendChild(eventTitle);
+          
+          eventTitle.addEventListener('click', () => window.electron.showEvent(event.date_deb));
+        }
       }
     });
   }
 };
+
+const selectDateRange = (dayCell: HTMLElement): void => {
+  if (dayCell.childElementCount > 1)return;
+
+  const eventTitle = document.createElement('div');
+  eventTitle.className = 'event__tag';
+
+  dayCell.appendChild(eventTitle);
+  window.electron.displayCreateEventPage('create');
+
+}

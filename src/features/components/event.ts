@@ -1,6 +1,6 @@
 const displayEvent = (index: number) => {
     return new Promise((resolve, reject) => {
-        const eventDetails = document.getElementsByClassName("event-details-container")[0];
+        const eventDetails: HTMLElement = document.getElementById("event-details-container");
         
         if (!eventDetails) {
             reject("Aucun élément avec la classe 'event-details-container' trouvé.");
@@ -9,7 +9,7 @@ const displayEvent = (index: number) => {
 
         const hourEventContainer = document.createElement('div');
 
-        hourEventContainer.classList.add('hour-event-container');
+        hourEventContainer.setAttribute('id', 'hour-event-container');
         hourEventContainer.setAttribute("event", index.toString());
         
         const hourContainer = document.createElement('div');

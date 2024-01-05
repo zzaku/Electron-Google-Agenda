@@ -3,13 +3,14 @@
   <head>
     <meta charset="UTF-8" />
     <link rel="stylesheet" href="./src/styles/style.css" />
+    <link rel="stylesheet" href="./src/styles/createEvent.css" />
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <title>Calendar</title>
   </head>
   <body>
-    <div class="container">
+    <div id="form__container">
         <div id="calendar">
-            <h1>Créer un nouvel événement</h1>
+            <h1 id="title"></h1>
             <form id="eventForm">
                 <label for="dateDeb">Date de début:</label>
                 <input type="datetime-local" id="dateDeb" name="dateDeb" required><br><br>
@@ -47,7 +48,8 @@
             </form>
         </div>
     </div>
+    <script src="./dist/features/components/shared/toaster.js"></script>
     <script src="./dist/features/components/calendar.js"></script>
-    <script src="./dist/features/renderer.js"></script>
+    <script src="./dist/features/components/createEvent.js"></script>
   </body>
 </html>

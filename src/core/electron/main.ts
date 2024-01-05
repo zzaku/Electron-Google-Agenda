@@ -11,6 +11,7 @@ import { db } from "../loaders/loadCoreModule";
 import * as path from "path";
 import { DateEvent } from "../models/event.interfaces";
 import { CurrentDateCalendar } from "../models/currentDateCalendar.interface";
+import { ExtendedCurrentEvent } from "../models/currentEvent";
 
 //Zone de handle
 const table = "events";
@@ -28,21 +29,25 @@ ipcMain.handle(
 ipcMain.handle(
   "get-event-by-id",
   async (event, params: number) =>
-    await db.functions.addEvent(db.knex, table, params)
+    await db.functions.getEventById(db.knex, table, params)
 );
 ipcMain.handle(
   "update-event",
   async (event, params: Partial<DateEvent>) =>
-    await db.functions.addEvent(db.knex, table, params)
+    await db.functions.updateEvent(db.knex, table, params)
 );
 ipcMain.handle(
   "delete-event",
   async (event, params: number) =>
-    await db.functions.addEvent(db.knex, table, params)
+    await db.functions.deleteEvent(db.knex, table, params)
 );
-ipcMain.handle("show-event", async (event, dateEvent: Date) => {
-  await createWindowEvent(dateEvent);
-});
+ipcMain.handle(
+  "show-event", async (event, dateEvent: Date) =>
+  await createWindowEvent(dateEvent)
+);
+ipcMain.handle(
+  "display-create-event-page", async (event, action: 'create' | 'edit', eventId?: number) => createEventWindow(action, eventId)
+);
 
 //Zone déclaration menus
 const templateMenu: MenuItemConstructorOptions[] = [
@@ -52,7 +57,7 @@ const templateMenu: MenuItemConstructorOptions[] = [
       {
         label: "Créer un évènement",
         click: () => {
-          createEventWindow();
+          createEventWindow('create');
         },
       },
       {
@@ -127,12 +132,17 @@ function createWindow() {
   // and load the index.html of the app.
   mainWindow.loadFile(path.join(__dirname, "../../../index.html"));
 
+  ipcMain.on(
+    "reload",
+    (event, res) => mainWindow.webContents.send("reload-calendar", res)
+  )
+
   // Open the DevTools.
   mainWindow.webContents.openDevTools();
 }
 
 // Create event window.
-function createEventWindow() {
+async function createEventWindow(action: 'create' | 'edit', eventId?: number) {
   const mainWindow = new BrowserWindow({
     height: 500,
     webPreferences: {
@@ -144,12 +154,20 @@ function createEventWindow() {
   // and load the index.html of the app.
   mainWindow.loadFile(path.join(__dirname, "../../../createEvent.html"));
 
+  let currentEvent: ExtendedCurrentEvent = action === "create" ? null : action === 'edit' && await getEventsDetailById(eventId);
+
+  currentEvent = { ...currentEvent, action };
+
+  mainWindow.webContents.on("did-finish-load", () => {
+    mainWindow.webContents.send('edit-page-event', currentEvent);
+  });
+
   // Open the DevTools.
   mainWindow.webContents.openDevTools();
 }
 
 async function createWindowEvent(dateEvent: Date) {
-  const eventDetails = await db.functions.getEventByDate(db.knex, table, dateEvent);
+  const eventsDetail = await getEventsDetail(dateEvent);
 
   const mainWindow = new BrowserWindow({
     height: 500,
@@ -162,10 +180,33 @@ async function createWindowEvent(dateEvent: Date) {
   mainWindow.loadFile(path.join(__dirname, "../../../showEvent.html"));
   
   mainWindow.webContents.on("did-finish-load", () => {
-    mainWindow.webContents.send('display-event', eventDetails);
+    mainWindow.webContents.send('display-event', eventsDetail);
   });
 
+  ipcMain.on(
+    "reload-events-page",
+    async (event, res, dateEvent) => {
+      res = await getEventsDetail(dateEvent);
+      mainWindow.webContents.send("display-event", res)
+    }
+  )
+
+  ipcMain.on(
+    "close-events-page",
+    async () => {
+      mainWindow.close()
+    }
+  )
+
   mainWindow.webContents.openDevTools();
+}
+
+async function getEventsDetail(dateEvent: Date): Promise<DateEvent[]> {
+  return await db.functions.getEventByDate(db.knex, table, dateEvent);
+}
+
+async function getEventsDetailById(eventId: number): Promise<DateEvent> {
+  return await db.functions.getEventById(db.knex, table, eventId);
 }
 
 // This method will be called when Electron has finished
