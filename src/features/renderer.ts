@@ -12,7 +12,7 @@ const nextYear = document.getElementById('nextYear');
 
 
 //Initialisation du calendrier
-(async function initializeCalendar  (){
+(async function initializeCalendar (){
   await createCalendar(true);
   displayEventsOnCalendar();
  })();
@@ -27,7 +27,7 @@ previousMonth.addEventListener('click', () => {
       action: 'previous'
     }})
   .then(async (res) => {
-    await createCalendar(false, res.year, res.month)
+    await createCalendar(false, res.year, res.month);
     displayEventsOnCalendar();
   })
 })
@@ -41,7 +41,7 @@ nextMonth.addEventListener('click', () => {
       action: 'next'
     }})
   .then(async (res) => {
-    await createCalendar(false, res.year, res.month)
+    await createCalendar(false, res.year, res.month);
     displayEventsOnCalendar();
   })
 })
@@ -56,7 +56,7 @@ previousYear.addEventListener('click', () => {
       action: 'previous'
     }})
   .then(async (res) => {
-    await createCalendar(false, res.year, res.month)
+    await createCalendar(false, res.year, res.month);
     displayEventsOnCalendar();
   })
 })
@@ -70,19 +70,15 @@ nextYear.addEventListener('click', () => {
       action: 'next'
     }})
   .then(async (res) => {
-    await createCalendar(false, res.year, res.month)
+    await createCalendar(false, res.year, res.month);
     displayEventsOnCalendar();
   })
-})
+});
 
+window.electron.onReloadCalendar(async (res: { year: number, month: number }) => {
+  const { year, month } = res;
 
- /*const test = {
-  date_deb: new Date(Date.now()),
-   date_fin: new Date(Date.now()),
-  titre: "ceci est un titre d'évènement de test"
- };
-
-(async function testAddEvent  (){
-  await window.electron.addEvent(test);
- })();
-*/
+  // Utilisation de year et month pour recharger le calendrier avec les nouvelles données
+  await createCalendar(false, year, month);
+  displayEventsOnCalendar();
+});
