@@ -12,44 +12,209 @@
         <div id="calendar">
             <h1 id="title"></h1>
             <form id="eventForm">
-                <label for="dateDeb">Date de début:</label>
-                <input type="datetime-local" id="dateDeb" name="dateDeb" required><br><br>
-
-                <label for="dateFin">Date de fin:</label>
-                <input type="datetime-local" id="dateFin" name="dateFin" required><br><br>
-
-                <label for="titre">Titre:</label>
-                <input type="text" id="titre" name="titre" required><br><br>
-
-                <label for="location">Lieu:</label>
-                <input type="text" id="location" name="location"><br><br>
-
-                <label for="categorie">Catégorie:</label>
-                <input type="text" id="categorie" name="categorie"><br><br>
-
-                <label for="description">Description:</label><br>
-                <textarea id="description" name="description" rows="4" cols="50"></textarea><br><br>
-
-                <label for="statut">Statut:</label>
-                <select id="statut" name="statut">
-                <option value="En cours">En cours</option>
-                <option value="Terminé">Terminé</option>
-                <option value="Annulé">Annulé</option>
-                </select><br><br>
-
-                <label for="transparence">Transparence:</label>
-                <select id="transparence" name="transparence">
-                <option value="Publique">Publique</option>
-                <option value="Privée">Privée</option>
-                <option value="Confidentielle">Confidentielle</option>
-                </select><br><br>
-
-                <button type="submit">Créer l'événement</button>
+              <div class="wrapper option-1 option-1-1">
+                <ol class="c-stepper">
+                  <li class="c-stepper__item">
+                    <h3 class="c-stepper__title">Date</h3>
+                  </li>
+                  <li class="c-stepper__item">
+                    <h3 class="c-stepper__title">Titre et description</h3>
+                  </li>
+                  <li class="c-stepper__item">
+                    <h3 class="c-stepper__title">Infos suplémentaires</h3>
+                  </li>
+                </ol>
+              </div>
+              <div class="form__content">
+                <div class="field__container">
+                  <div id="date__container" class="step">
+                    <div class="wave-group wave-date">
+                      <input class="input" type="datetime-local" id="dateDeb" name="dateDeb">
+                      <span class="bar"></span>
+                      <label class="label">
+                        <span class="label-char" style="--index: 0">D</span>
+                        <span class="label-char" style="--index: 1">a</span>
+                        <span class="label-char" style="--index: 2">t</span>
+                        <span class="label-char" style="--index: 3">e</span>
+                        <span class="label-char" style="--index: 4">&nbsp;</span>
+                        <span class="label-char" style="--index: 5">d</span>
+                        <span class="label-char" style="--index: 6">e</span>
+                        <span class="label-char" style="--index: 7">&nbsp;</span>
+                        <span class="label-char" style="--index: 8">d</span>
+                        <span class="label-char" style="--index: 9">é</span>
+                        <span class="label-char" style="--index: 10">b</span>
+                        <span class="label-char" style="--index: 11">u</span>
+                        <span class="label-char" style="--index: 12">t</span>
+                      </label>
+                    </div>
+                    <div class="wave-group wave-date">
+                      <input class="input" type="datetime-local" id="dateFin" name="dateFin">
+                      <span class="bar"></span>
+                      <label class="label">
+                        <span class="label-char" style="--index: 0">D</span>
+                        <span class="label-char" style="--index: 1">a</span>
+                        <span class="label-char" style="--index: 2">t</span>
+                        <span class="label-char" style="--index: 3">e</span>
+                        <span class="label-char" style="--index: 4">&nbsp;</span>
+                        <span class="label-char" style="--index: 5">d</span>
+                        <span class="label-char" style="--index: 6">e</span>
+                        <span class="label-char" style="--index: 7">&nbsp;</span>
+                        <span class="label-char" style="--index: 8">f</span>
+                        <span class="label-char" style="--index: 9">i</span>
+                        <span class="label-char" style="--index: 10">n</span>
+                      </label>
+                    </div>
+                  </div>
+                  <div id="primary__data__container" class="step">
+                    <div class="wave-group">
+                      <input class="input" type="text" id="titre" name="titre" required>
+                      <span class="bar"></span>
+                      <label class="label">
+                        <span class="label-char" style="--index: 0">T</span>
+                        <span class="label-char" style="--index: 1">i</span>
+                        <span class="label-char" style="--index: 2">t</span>
+                        <span class="label-char" style="--index: 3">r</span>
+                        <span class="label-char" style="--index: 4">e</span>
+                      </label>
+                    </div>
+                    <div class="wave-group">
+                      <textarea class="input" id="description" name="description" rows="4" cols="50" required></textarea>
+                      <span class="bar"></span>
+                      <label class="label">
+                        <span class="label-char" style="--index: 0">D</span>
+                        <span class="label-char" style="--index: 1">e</span>
+                        <span class="label-char" style="--index: 2">s</span>
+                        <span class="label-char" style="--index: 3">c</span>
+                        <span class="label-char" style="--index: 4">r</span>
+                        <span class="label-char" style="--index: 5">i</span>
+                        <span class="label-char" style="--index: 6">p</span>
+                        <span class="label-char" style="--index: 7">t</span>
+                        <span class="label-char" style="--index: 8">i</span>
+                        <span class="label-char" style="--index: 9">o</span>
+                        <span class="label-char" style="--index: 10">n</span>
+                      </label>
+                    </div>
+                  </div>
+                  <div id="secondary__data__container" class="step">
+                    <div class="additional__information1">
+                      <div class="wave-group">
+                        <input class="input" type="text" id="location" name="location" required>
+                        <span class="bar"></span>
+                        <label class="label">
+                          <span class="label-char" style="--index: 0">L</span>
+                          <span class="label-char" style="--index: 1">i</span>
+                          <span class="label-char" style="--index: 2">e</span>
+                          <span class="label-char" style="--index: 3">u</span>
+                        </label>
+                      </div>
+                      <div class="wave-group">
+                        <input class="input" type="text" id="categorie" name="categorie" required>
+                        <span class="bar"></span>
+                        <label class="label">
+                          <span class="label-char" style="--index: 0">C</span>
+                          <span class="label-char" style="--index: 1">a</span>
+                          <span class="label-char" style="--index: 2">t</span>
+                          <span class="label-char" style="--index: 3">é</span>
+                          <span class="label-char" style="--index: 4">g</span>
+                          <span class="label-char" style="--index: 5">o</span>
+                          <span class="label-char" style="--index: 6">r</span>
+                          <span class="label-char" style="--index: 7">i</span>
+                          <span class="label-char" style="--index: 8">e</span>
+                        </label>
+                      </div>
+                    </div>
+                    <div class="additional__information2">
+                      <div class="select">
+                        <div
+                          class="selected"
+                          data-default="Publique"
+                          data-one="Privée"
+                          data-two="Confidentielle"
+                        >
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            height="1em"
+                            viewBox="0 0 512 512"
+                            class="arrow"
+                          >
+                            <path
+                              d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"
+                            ></path>
+                          </svg>
+                        </div>
+                        <div class="transparence">
+                          <div title="Publique">
+                            <input id="Publique" name="option" type="radio" data-txt="Publique" />
+                            <label class="option" for="Publique" data-txt="Publique"></label>
+                          </div>
+                          <div title="Privee">
+                            <input id="Privee" name="option" type="radio" data-txt="Privée"/ >
+                            <label class="option" for="Privee" data-txt="Privée"></label>
+                          </div>
+                          <div title="Confidentielle">
+                            <input id="Confidentielle" name="option" type="radio" data-txt="Confidentielle"/ >
+                            <label class="option" for="Confidentielle" data-txt="Confidentielle"></label>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="select">
+                        <div
+                          class="selected"
+                          data-default="En cours"
+                          data-one="Terminé"
+                          data-two="Annulé"
+                        >
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            height="1em"
+                            viewBox="0 0 512 512"
+                            class="arrow"
+                          >
+                            <path
+                              d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"
+                            ></path>
+                          </svg>
+                        </div>
+                        <div class="statut">
+                          <div title="En cours">
+                            <input id="En_cours" name="option2" type="radio" data-txt="En cours" />
+                            <label class="option2" for="En_cours" data-txt="En cours"></label>
+                          </div>
+                          <div title="Termine">
+                            <input id="Termine" name="option2" type="radio" data-txt="Terminé"/>
+                            <label class="option2" for="Termine" data-txt="Terminé"></label>
+                          </div>
+                          <div title="Annule">
+                            <input id="Annule" name="option2" type="radio" data-txt="Annulé" />
+                            <label class="option2" for="Annule" data-txt="Annulé"></label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="button__container">
+                  <button id="previous__step__btn" class="step__arrow left">
+                    <svg style="color: white" xmlns="http://www.w3.org/2000/svg" width="25" height="20" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
+                      <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z" fill="white"></path>
+                    </svg>                         
+                    <div class="text">Précdent</div>
+                  </button>
+                  <button id="submit-btn" type="submit"></button>
+                  <button id="next__step__btn" class="step__arrow right">
+                    <svg style="color: white" xmlns="http://www.w3.org/2000/svg" width="25" height="20" fill="currentColor" class="bi bi-arrow-right" viewBox="0 0 16 16">
+                      <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z" fill="white"></path>
+                    </svg>
+                    <div class="text">Suivant</div>  
+                  </button>
+                </div>
+              </div>
             </form>
+          </div>
         </div>
-    </div>
-    <script src="./dist/features/components/shared/toaster.js"></script>
-    <script src="./dist/features/components/calendar.js"></script>
-    <script src="./dist/features/components/createEvent.js"></script>
+        <script src="./dist/features/components/shared/toaster.js"></script>
+        <script src="./dist/features/components/calendar.js"></script>
+    <script src="./dist/features/components/createEvent.js" defer></script>
+    <script src="./dist/features/components/shared/steper.js" defer></script>
   </body>
 </html>

@@ -13,6 +13,7 @@ body{
 }
 
 .month-year{
+  position: relative;
   height: 10rem;
   display: flex;
   justify-content: space-around;
@@ -20,6 +21,47 @@ body{
   background-color:#202248;
   border-radius: 10px;
   margin-bottom: 1rem;
+}
+
+input[type="radio"].circle {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid #D6E1FF;
+  top: 1px;
+  left: 1px;
+  z-index: 10;
+  display: none;
+}
+
+input[type="radio"].circle {
+  display: block;
+}
+
+.circle:hover{
+  background-color: rgba(255, 255, 255, 0.98);
+}
+
+.month-year button {
+  position: absolute;
+  right: 1em;
+  bottom: 1em;
+  width: 40px;
+  border: 2px #D6E1FF solid;
+  border-radius: 10px;
+  cursor: pointer;
+  background-color: #6a72ff;
+  transition: 0.2s;
+}
+
+.month-year button:hover{
+  transform: scale(0.9);
+  border-color: #ffffff;
+}
+
+.month-year button svg path{
+  fill: #D6E1FF;
 }
 
 .month-container, .year-container{
@@ -102,7 +144,7 @@ body{
 }
 
 .event__tag{
-  position: absolute;
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -253,4 +295,23 @@ body{
   line-height: 1.25rem;
   border-radius: 0.375rem;
   border: none;
+}
+
+#event-count{
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 2em;
+  margin: auto;
+  background-color: #ff7474;
+  border-radius: 50%;
+  font-size: 0.7em;
+  color: rgb(0, 0, 0);
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px #ffa8a8 solid;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
 }

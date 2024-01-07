@@ -144,7 +144,7 @@ function createWindow() {
 // Create event window.
 async function createEventWindow(action: 'create' | 'edit', eventId?: number) {
   const mainWindow = new BrowserWindow({
-    height: 500,
+    height: 600,
     webPreferences: {
       preload: path.join(__dirname, "./preload.js"),
     },
