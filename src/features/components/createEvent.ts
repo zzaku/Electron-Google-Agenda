@@ -199,9 +199,7 @@ const generateICSLink = (eventDetails: EventICS): string => {
         END:VCALENDAR
     `.trim();
 
-    const encodedICS = encodeURIComponent(formattedICS);
-    const href = `data:text/calendar;charset=utf8,${encodedICS}`;
-    return href;
+    return formattedICS
 };
 
 

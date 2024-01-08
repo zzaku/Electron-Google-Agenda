@@ -23,20 +23,17 @@ body{
   margin-bottom: 1rem;
 }
 
-input[type="radio"].circle {
+input[type="checkbox"].circle {
   position: absolute;
-  width: 20px;
-  height: 20px;
+  width: 15px;
+  cursor: pointer;
+  height: 15px;
   border-radius: 50%;
   border: 2px solid #D6E1FF;
   top: 1px;
   left: 1px;
   z-index: 10;
   display: none;
-}
-
-input[type="radio"].circle {
-  display: block;
 }
 
 .circle:hover{
@@ -53,6 +50,15 @@ input[type="radio"].circle {
   cursor: pointer;
   background-color: #6a72ff;
   transition: 0.2s;
+}
+
+.month-year .confirm-export {
+  right: 5em;
+  width: auto;
+  height: 25px;
+  color: #D6E1FF;
+  letter-spacing: 3px;
+  display: none;
 }
 
 .month-year button:hover{

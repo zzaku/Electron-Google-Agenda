@@ -1,7 +1,9 @@
 const monthElement = document.getElementById("month");
 const yearElement = document.getElementById("year");
-const exportBtn = document.getElementById("export-btn");
 const columns = Array.from(document.querySelectorAll(".column"));
+
+const exportBtn = document.getElementById("export-btn");
+const confirmExport: HTMLElement = document.querySelector(".confirm-export");
 
 const months = [
   "Janvier", "Février", "Mars", "Avril", "Mai", "Juin",
@@ -16,6 +18,103 @@ let isExportingMode: boolean;
 const getAllEventsFromDB = async () => {
   return await window.electron.getAllEvents();
 };
+
+exportBtn.addEventListener('click', () => {
+  const selectCircles: NodeListOf<HTMLElement> = document.querySelectorAll(".circle");
+  
+
+  isExportingMode = !isExportingMode;
+  if (isExportingMode) {
+      selectCircles.forEach(selectCircle => selectCircle.style.display = "block");
+      
+      checkInputs();
+      
+    } else {
+      selectCircles.forEach(selectCircle => selectCircle.style.display = "none");
+    }
+    
+  });
+
+  confirmExport.addEventListener("click", () => confirmExportOfEvent());
+
+  const handleClickInput = (inputInsideCell: HTMLInputElement) => {
+    if(isExportingMode){
+      if(inputInsideCell){
+        inputInsideCell.checked = !inputInsideCell.checked;
+      }
+    }
+  }
+
+  function checkInputs(): void {
+    const selectCircles: NodeListOf<HTMLInputElement> = document.querySelectorAll('.circle');
+  
+    let isAnyChecked = false;
+
+    selectCircles.forEach(selectCircle => {
+      selectCircle.addEventListener("change", () => {
+        checkSelected(isAnyChecked, confirmExport, selectCircles);
+      })
+      isAnyChecked = Array.from(selectCircles).some(circle => circle.checked);
+      checkSelected(isAnyChecked, confirmExport, selectCircles);
+    });
+  }
+
+  const checkSelected = (isSelected: boolean, btn: HTMLElement, selectCircles: NodeListOf<HTMLInputElement>): void => {
+    isSelected = Array.from(selectCircles).some(circle => circle.checked);
+
+    if (isSelected) {
+      btn.style.display = 'block';
+    } else {
+      btn.style.display = 'none';
+    }
+  }
+
+  const confirmExportOfEvent = async (): Promise<void> => {
+    const inputsSelect: HTMLInputElement[] = Array.from(document.querySelectorAll('.circle'));
+
+    const selectedEvents: EventICS[] = [];
+
+    for (const input of inputsSelect) {
+      if(input.checked){
+        const attr = input.getAttributeNames()
+        const idsAttr = attr.slice(2, attr.length - 1);
+        const ids = idsAttr.map(idAttr => parseInt(idAttr.split('-')[idAttr.split('-').length - 1]));
+
+        for (const id of ids) {
+          const event = await window.electron.getEventById(id);
+          if (event) {
+            const formattedEvent: EventICS = {
+              dtStart: event.date_deb.toISOString().replace(/-|:|\.\d+/g, "").slice(0, -1) + 'Z',
+              dtEnd: event.date_fin.toISOString().replace(/-|:|\.\d+/g, "").slice(0, -1) + 'Z',
+              summary: event.titre,
+              location: event.location,
+              description: event.description,
+              categorie: event.categorie,
+              prodId: '-//Schedulo//EN',
+              transp: event.transparence || '',
+              status: event.statut || '',
+            };
+  
+            selectedEvents.push(formattedEvent);
+          }
+        }
+      }
+    }
+
+    for (const input of inputsSelect) {
+      input.checked = false;
+      exportBtn.click();
+      checkInputs();
+    }
+
+    const icsContent = generateICSFile(selectedEvents);
+    const encodedICSContent = encodeURIComponent(icsContent);
+    const calendarURLFile = `data:text/calendar;charset=utf-8,${encodedICSContent}`;
+
+
+    
+    window.location.href = calendarURLFile;
+  }
 
 function createCalendar(firstLoading: boolean, year?: number, month?: number): Promise<null> {
   return new Promise((resolve, reject) => {
@@ -92,10 +191,8 @@ function createCalendar(firstLoading: boolean, year?: number, month?: number): P
             };
 
             if (isExportingMode) {
-              // Retirez l'événement de clic
               dayCell.removeEventListener("click", handleClick);
             } else {
-              // Ajoutez l'événement de clic
               dayCell.addEventListener("click", handleClick);
             }
 
@@ -143,12 +240,12 @@ const displayEventsOnCalendar = async () => {
         eventCounts[dateString]++;
       }
 
+      const cell: HTMLElement = document.querySelector(`.dates-table td[data-day="${day}"][data-month="${month}"][data-year="${year}"]`);
+
       if (!processedDates[dateString]) {
         processedDates[dateString] = true; // Marquer la date comme traitée
         
         // Récupérer la cellule correspondant à la date de l'événement
-        const cell: HTMLElement = document.querySelector(`.dates-table td[data-day="${day}"][data-month="${month}"][data-year="${year}"]`);
-
         
         if (cell) {
           createInputExport(cell, event.id);
@@ -165,39 +262,54 @@ const displayEventsOnCalendar = async () => {
 
           span.textContent = eventCounts[dateString].toString();
 
-          eventTitle.addEventListener('click', () => window.electron.showEvent(event.date_deb));
+          const handleClickShowEvent = () => {
+            if (!isExportingMode) {
+              window.electron.showEvent(event.date_deb);
+            }
+          };
+
+          if (isExportingMode) {
+            eventTitle.removeEventListener("click", handleClickShowEvent);
+          } else {
+            eventTitle.addEventListener("click", handleClickShowEvent);
+          }
 
           eventTitle.appendChild(span);
           cell.appendChild(eventTitle);
         }
       } else {
         const eventCountSpan = document.querySelector(`#event-count[data-day="${day}"][data-month="${month}"][data-year="${year}"]`);
+        const cellInput = cell.querySelector(".circle");
+
+        cellInput.setAttribute(`data-event-${event.id}`, event.id.toString());
 
         eventCountSpan.textContent = eventCounts[dateString].toString();
       }
     });
   }
+
+  const eventsTag: NodeListOf<HTMLElement> = document.querySelectorAll(".event__tag");
+
+  eventsTag.forEach(eventTag => {
+      const inputInsideCell: HTMLInputElement = eventTag.previousElementSibling as HTMLInputElement;
+
+      eventTag.addEventListener("click", () => {
+        handleClickInput(inputInsideCell);
+        checkInputs();
+      });
+  });
 };
 
 const createInputExport = (cell: HTMLElement, eventId: number) => {
   const selectCircle = document.createElement('input');
 
   selectCircle.classList.add("circle");
-  selectCircle.setAttribute("type", "radio");
-  selectCircle.setAttribute("data-event-id", eventId.toString());
-
+  selectCircle.setAttribute("type", "checkbox");
+  selectCircle.setAttribute(`data-event-${eventId}`, eventId.toString());
+  
   cell.appendChild(selectCircle);
-
-    exportBtn.addEventListener('click', () => {
-      isExportingMode = !isExportingMode;
-      if (isExportingMode) {
-        selectCircle.style.display = "block"
-      } else {
-        selectCircle.style.display = "none";
-      }
-    });
-  }
-
+  
+}
 
 const selectDateRange = (dayCell: HTMLElement): void => {
   if (dayCell.childElementCount > 1)return;
@@ -214,25 +326,24 @@ const generateICSFile = (events: EventICS[]): string => {
 
   events.forEach(event => {
     icsContent += `
-      BEGIN:VCALENDAR
-      VERSION:2.0
-      PRODID:-//Schedulo//EN
-      BEGIN:VEVENT
-      DTSTART:${event.dtStart}
-      DTEND:${event.dtEnd}
-      SUMMARY:${event.summary}
-      LOCATION:${event.location}
-      DESCRIPTION:${event.description}
-      TRANSP:${event.transp}
-      STATUS:${event.status}
-      CATEGORIES:${event.categorie}
-      END:VEVENT
-      END:VCALENDAR
-    `;
-  });
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Schedulo//EN
+BEGIN:VEVENT
+DTSTART:${event.dtStart}
+DTEND:${event.dtEnd}
+SUMMARY:${event.summary}
+LOCATION:${event.location}
+DESCRIPTION:${event.description}
+TRANSP:${event.transp}
+STATUS:${event.status}
+CATEGORIES:${event.categorie}
+END:VEVENT
 
-  const encodedICS = encodeURIComponent(icsContent);
-  const href = `data:text/calendar;charset=utf8,${encodedICS}`;
+\n\n`;
+});
 
-  return href;
+  icsContent += `END:VCALENDAR\n`;
+
+  return icsContent;
 };

@@ -136,6 +136,7 @@ function createWindow() {
     "reload",
     (event, res) => mainWindow.webContents.send("reload-calendar", res)
   )
+  mainWindow.webContents.openDevTools();
 }
 
 // Create event window.
