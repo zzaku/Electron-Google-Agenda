@@ -136,9 +136,6 @@ function createWindow() {
     "reload",
     (event, res) => mainWindow.webContents.send("reload-calendar", res)
   )
-
-  // Open the DevTools.
-  mainWindow.webContents.openDevTools();
 }
 
 // Create event window.
@@ -161,9 +158,6 @@ async function createEventWindow(action: 'create' | 'edit', eventId?: number) {
   mainWindow.webContents.on("did-finish-load", () => {
     mainWindow.webContents.send('edit-page-event', currentEvent);
   });
-
-  // Open the DevTools.
-  mainWindow.webContents.openDevTools();
 }
 
 async function createWindowEvent(dateEvent: Date) {
@@ -197,8 +191,6 @@ async function createWindowEvent(dateEvent: Date) {
       mainWindow.close()
     }
   )
-
-  mainWindow.webContents.openDevTools();
 }
 
 async function getEventsDetail(dateEvent: Date): Promise<DateEvent[]> {
