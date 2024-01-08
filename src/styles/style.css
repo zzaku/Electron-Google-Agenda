@@ -149,6 +149,14 @@ input[type="checkbox"].circle {
   margin: 5px 5px 0 0;
 }
 
+.dayy__cell{
+  transition: 0.3s ease-in;
+}
+
+.dayy__cell:hover {
+  background-color: #6a72ff;
+}
+
 .event__tag{
   position: relative;
   display: flex;

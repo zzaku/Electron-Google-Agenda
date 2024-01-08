@@ -166,6 +166,8 @@ function createCalendar(firstLoading: boolean, year?: number, month?: number): P
         for (let j = 0; j < 7; j++) {
           const dayCell = document.createElement('td');
 
+          dayCell.classList.add("dayy__cell");
+
           dayCell.style.cursor = "pointer";
 
           if (i === 0 && j < firstDayOfMonth) {
@@ -185,8 +187,9 @@ function createCalendar(firstLoading: boolean, year?: number, month?: number): P
             dayCell.appendChild(dayNumber);
 
             const handleClick = () => {
+              const newDate = new Date(year, month, dayCounter);
               if (!isExportingMode) {
-                selectDateRange(dayCell, );
+                selectDateRange(newDate);
               }
             };
 
@@ -264,6 +267,7 @@ const displayEventsOnCalendar = async () => {
 
           const handleClickShowEvent = () => {
             if (!isExportingMode) {
+              console.log(event.date_deb)
               window.electron.showEvent(event.date_deb);
             }
           };
@@ -311,14 +315,9 @@ const createInputExport = (cell: HTMLElement, eventId: number) => {
   
 }
 
-const selectDateRange = (dayCell: HTMLElement): void => {
-  if (dayCell.childElementCount > 1)return;
-
-  const eventTitle = document.createElement('div');
-  eventTitle.className = 'event__tag';
-
-  dayCell.appendChild(eventTitle);
-  window.electron.displayCreateEventPage('create');
+const selectDateRange = (dateDeb: Date): void => {
+  //à faire
+return;
 }
 
 const generateICSFile = (events: EventICS[]): string => {
