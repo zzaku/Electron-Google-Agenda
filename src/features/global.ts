@@ -15,7 +15,7 @@ declare global {
             deleteEvent: (eventId: number) => Promise<boolean>;
             contextMenu: () => void;
             showEvent: (dateEvent: Date) => void;
-            displayCreateEventPage: (action: 'create' | 'edit', eventId?: number) => void;
+            displayCreateEventPage: (action: 'create' | 'edit', eventId?: number, dateDeb?: Date) => void;
             onSendReloadEventDetail: (dateEvent: Date) => void;
             currentEventDetail: (callback: (res: ExtendedCurrentEvent) => void) => void;
             eventDetail: (callback: (res: DateEvent[]) => void) => void;

@@ -46,7 +46,7 @@ ipcMain.handle(
   await createWindowEvent(dateEvent)
 );
 ipcMain.handle(
-  "display-create-event-page", async (event, action: 'create' | 'edit', eventId?: number) => createEventWindow(action, eventId)
+  "display-create-event-page", async (event, action: 'create' | 'edit', eventId?: number, dateDeb?: Date) => createEventWindow(action, eventId, dateDeb)
 );
 
 //Zone déclaration menus
@@ -140,7 +140,7 @@ function createWindow() {
 }
 
 // Create event window.
-async function createEventWindow(action: 'create' | 'edit', eventId?: number) {
+async function createEventWindow(action: 'create' | 'edit', eventId?: number, dateDeb?: Date) {
   const mainWindow = new BrowserWindow({
     height: 600,
     webPreferences: {
@@ -152,7 +152,7 @@ async function createEventWindow(action: 'create' | 'edit', eventId?: number) {
   // and load the index.html of the app.
   mainWindow.loadFile(path.join(__dirname, "../../../createEvent.html"));
 
-  let currentEvent: ExtendedCurrentEvent = action === "create" ? null : action === 'edit' && await getEventsDetailById(eventId);
+  let currentEvent: ExtendedCurrentEvent = action === "create" ? {date_deb: dateDeb, date_fin: null, titre: null} : action === 'edit' && await getEventsDetailById(eventId);
 
   currentEvent = { ...currentEvent, action };
 

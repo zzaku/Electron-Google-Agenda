@@ -33,8 +33,6 @@ statut.forEach(option => {
   });
 
 window.electron.currentEventDetail((myEvent) => {
-    
-    
     if(myEvent.action === "edit"){
         titlePage.innerText = "Modifiez votre évènement";
         submitBtn.innerText = "Modifier l'événement";
@@ -60,6 +58,9 @@ window.electron.currentEventDetail((myEvent) => {
     } else if(myEvent.action === 'create'){
         titlePage.innerText = "Créer un nouvel événement";
         submitBtn.innerText = "Créer l'événement";
+        if(myEvent.date_deb){
+            dateDeb.value = formatDateToInputValue(myEvent.date_deb);
+        }
     }
 
     //Submit form

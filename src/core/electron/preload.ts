@@ -15,7 +15,7 @@ contextBridge.exposeInMainWorld(
     deleteEvent: (eventId: number) => ipcRenderer.invoke('delete-event', eventId),
     contextMenu: () => ipcRenderer.invoke('show-context-menu'),
     showEvent: (dateEvent: Date) => ipcRenderer.invoke('show-event', dateEvent),
-    displayCreateEventPage: (action: 'create' | 'edit', eventId?: number) => ipcRenderer.invoke('display-create-event-page', action, eventId),
+    displayCreateEventPage: (action: 'create' | 'edit', eventId?: number, dateDeb?: Date) => ipcRenderer.invoke('display-create-event-page', action, eventId, dateDeb),
     onSendReloadEventDetail: (dateEvent: Date) => onSendReloadEventDetail(dateEvent),
     currentEventDetail: (callback: (res: ExtendedCurrentEvent) => void) => currentEventDetail(callback),
     eventDetail: (callback: (res: DateEvent[]) => void) => eventDetail(callback),

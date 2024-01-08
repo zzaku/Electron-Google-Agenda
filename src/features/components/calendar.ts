@@ -25,12 +25,19 @@ exportBtn.addEventListener('click', () => {
 
   isExportingMode = !isExportingMode;
   if (isExportingMode) {
-      selectCircles.forEach(selectCircle => selectCircle.style.display = "block");
-      
-      checkInputs();
-      
+    const dayCells: NodeListOf<HTMLElement> = document.querySelectorAll(".dayy__cell");
+
+    selectCircles.forEach(selectCircle => selectCircle.style.display = "block");
+    
+    checkInputs();
+
+    dayCells.forEach((elem: HTMLElement) => elem.classList.remove("cliackable"));
     } else {
+      const dayCells: NodeListOf<HTMLElement> = document.querySelectorAll(".dayy__cell");
+
       selectCircles.forEach(selectCircle => selectCircle.style.display = "none");
+
+      dayCells.forEach((elem: HTMLElement) => elem.classList.add("cliackable"));
     }
     
   });
@@ -167,6 +174,7 @@ function createCalendar(firstLoading: boolean, year?: number, month?: number): P
           const dayCell = document.createElement('td');
 
           dayCell.classList.add("dayy__cell");
+          dayCell.classList.add("cliackable");
 
           dayCell.style.cursor = "pointer";
 
@@ -186,17 +194,10 @@ function createCalendar(firstLoading: boolean, year?: number, month?: number): P
 
             dayCell.appendChild(dayNumber);
 
-            const handleClick = () => {
-              const newDate = new Date(year, month, dayCounter);
-              if (!isExportingMode) {
-                selectDateRange(newDate);
-              }
-            };
-
             if (isExportingMode) {
-              dayCell.removeEventListener("click", handleClick);
+              dayCell.removeEventListener("click", () => handleClickSelectEvent(year, month, dayCounter));
             } else {
-              dayCell.addEventListener("click", handleClick);
+              dayCell.addEventListener("click", () => handleClickSelectEvent(year, month, dayCounter));
             }
 
             dayCounter++;
@@ -251,6 +252,8 @@ const displayEventsOnCalendar = async () => {
         // Récupérer la cellule correspondant à la date de l'événement
         
         if (cell) {
+          const dayCell: NodeListOf<HTMLElement> = document.querySelectorAll(".dayy__cell");
+
           createInputExport(cell, event.id);
 
           const eventTitle = document.createElement('div');
@@ -271,6 +274,8 @@ const displayEventsOnCalendar = async () => {
               window.electron.showEvent(event.date_deb);
             }
           };
+
+          dayCell.forEach(elem => {console.log(elem);elem.removeEventListener("click", () => handleClickSelectEvent())})
 
           if (isExportingMode) {
             eventTitle.removeEventListener("click", handleClickShowEvent);
@@ -304,6 +309,13 @@ const displayEventsOnCalendar = async () => {
   });
 };
 
+const handleClickSelectEvent = (year?: number, month?: number, dayCounter?: number) => {
+  const newDate = new Date(year, month, dayCounter);
+  if (!isExportingMode) {
+    selectDateRange(newDate);
+  }
+};
+
 const createInputExport = (cell: HTMLElement, eventId: number) => {
   const selectCircle = document.createElement('input');
 
@@ -316,8 +328,9 @@ const createInputExport = (cell: HTMLElement, eventId: number) => {
 }
 
 const selectDateRange = (dateDeb: Date): void => {
-  //à faire
-return;
+  if(!isExportingMode){
+    window.electron.displayCreateEventPage("create", null, dateDeb);
+  }
 }
 
 const generateICSFile = (events: EventICS[]): string => {
